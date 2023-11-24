@@ -36,15 +36,16 @@ public:
         return balance;
     }
 
-    // friend void operator+(Account& from, Account& to, double amount) {
-    //     if (amount <= from.balance) {
-    //         from.balance -= amount;
-    //         to.balance += amount;
-    //         std::cout << "Transfer successful: $" << amount << " transferred\n";
-    //     } else {
-    //         std::cout << "Transfer failed: Insufficient funds\n";
-    //     }
-    // }
+    friend Account operator+(Account& from, Account& to) {
+        double transferAmount = 300.0;  // Define the specific transfer amount
+        if (transferAmount <= from.balance) {
+            from.balance -= transferAmount;
+            to.balance += transferAmount;
+        } else {
+            std::cout << "Transfer failed: Insufficient funds in " << from.accountNumber << "\n";
+        }
+        return to;
+    }
 
     friend std::ostream& operator<<(std::ostream& os, const Account& acc) {
         os << "Account Details for Account (ID: " << acc.accountNumber << "):" << std::endl;
@@ -145,11 +146,11 @@ int main() {
 
     // Transfer 300 from savings to current
 
-    // current = current + savings;
+    operator+(savings, current);
 
-    // std::cout << "After transfer\n:" << endl;
-    // savings.displayDetails();
-    // std::cout << "\n" << endl;
-    // current.displayDetails();
+    std::cout << "Account Details after transfer:" << endl;
+    savings.displayDetails();
+    std::cout << "\n" << endl;
+    current.displayDetails();
     return 0;
 }
